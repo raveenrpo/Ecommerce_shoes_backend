@@ -137,28 +137,7 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
         }
 
 
-        //public async Task<ProductAddDto> UpadateProduct(int id, ProductAddDto addDto)
-        //{
-        //    try
-        //    {
-        //        var exist = await _context.Products.FindAsync(id);
-        //        if (exist == null)
-        //        {
-        //            return null;
-        //        }
-
-        //        var pr = _mapper.Map<Products>(addDto);
-        //        //await _context.Products.AddAsync(pr);
-        //        _context.Products.Update(pr);
-        //        await _context.SaveChangesAsync();
-        //        return (addDto);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
+        
         public async Task<ProductAddDto> UpadateProduct(int id, ProductAddDto addDto)
         {
             try
@@ -174,7 +153,7 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
 
                 await _context.SaveChangesAsync();
 
-                return addDto; // Return the updated DTO, or map back to a ProductDto if needed
+                return addDto; 
             }
             catch (Exception ex)
             {

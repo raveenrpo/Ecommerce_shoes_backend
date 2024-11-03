@@ -21,6 +21,7 @@ namespace Ecommerse_shoes_backend.Data.Models
         [Required]
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
+        public ICollection<CartItem> CartItems { get; set; }
 
     }
 }

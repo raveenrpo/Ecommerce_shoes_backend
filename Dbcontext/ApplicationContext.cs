@@ -13,6 +13,8 @@ namespace Ecommerse_shoes_backend.Dbcontext
         public DbSet<User> Users { get; set; }
         public DbSet<Products> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +29,27 @@ namespace Ecommerse_shoes_backend.Dbcontext
                 .HasOne(p => p.Category)
                 .WithMany(p => p.Products)
                 .HasForeignKey(p => p.CategoryId);
+
+
+
+            modelBuilder.Entity<User>()
+                .HasOne(c=>c.Cart)
+                .WithOne(u=>u.User)
+                .HasForeignKey<Cart>(u=>u.UserId);
+
+            modelBuilder.Entity<Cart>()
+                .HasMany(p => p.CartItems)
+                .WithOne(c=>c.Cart)
+                .HasForeignKey(c=>c.CartId);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(p=>p.Products)
+                .WithMany(c=>c.CartItems)
+                .HasForeignKey(p=>p.ProductId);
+
+
+           
+
         }
     }
 }
