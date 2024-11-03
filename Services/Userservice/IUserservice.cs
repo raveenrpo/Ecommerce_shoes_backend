@@ -7,6 +7,9 @@ namespace Ecommerse_shoes_backend.Services.Userservice
     {
         Task<string> Register(UserDto user);
         Task<LoginDto> Login(Login login);
-        //Task<User> GetUser(User user);
+        Task<IEnumerable<AdminDto>> GetUser();
+        Task<AdminDto> GetUserById(int id);
+        Task<bool> Block(int id);
+        Task<bool>Unblock(int id);
     }
 }

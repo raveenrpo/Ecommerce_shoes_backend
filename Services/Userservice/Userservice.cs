@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
@@ -51,6 +52,7 @@ namespace Ecommerse_shoes_backend.Services.Userservice
             var exist = await _context.Users.FirstOrDefaultAsync(u => u.Email ==login.Email);
             if (exist != null)
             {
+                Console.WriteLine(exist);
                 var pass = BCrypt.Net.BCrypt.Verify(login.Password, exist.Password);
                     if (pass)
                     {
@@ -65,13 +67,87 @@ namespace Ecommerse_shoes_backend.Services.Userservice
             }
                 return new LoginDto { Error = "not found" };
         }
+
+        public async Task<IEnumerable<AdminDto>> GetUser()
+        {
+            try
+            {
+                var user =await _context.Users.ToListAsync();
+                var admindto = _mapper.Map<IEnumerable<AdminDto>>(user);
+                return admindto;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        public async Task<AdminDto> GetUserById(int id)
+        {
+            try
+            {
+                var exist = await _context.Users.FindAsync(id);
+                if (exist == null)
+                {
+                    return null;
+                }
+                var user = _mapper.Map<AdminDto>(exist);
+                return user;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);    
+            }
+
+        }
+
+        public async Task<bool> Block(int id)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(id);
+                if(user == null)
+                {
+                    return false;
+                }
+                user.Isblocked = true;
+                await _context.SaveChangesAsync();
+                return true;
+
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> Unblock(int id)
+        {
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+                if(user == null)
+                {
+                    return false;
+                }
+                user.Isblocked = false;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         private string GenerateJwtToken(User user)
         {
             var claims = new[]
             {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.Role, user.Role ?? "User") // Default to "User" if no role is assigned
+            new Claim(ClaimTypes.Role, user.Role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -81,7 +157,7 @@ namespace Ecommerse_shoes_backend.Services.Userservice
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30), // Set token expiration
+                expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

@@ -10,6 +10,8 @@ namespace Ecommerse_shoes_backend.Mapper
         {
             CreateMap<User,UserDto>().ReverseMap();
             CreateMap<User,AdminDto>().ReverseMap();
+            CreateMap<Products,ProductDto>().ReverseMap();
+            CreateMap<Products,ProductAddDto>().ReverseMap();
         }
     }
 }

@@ -1,4 +1,5 @@
 using Ecommerse_shoes_backend.Dbcontext;
+using Ecommerse_shoes_backend.Services.Productservice;
 using Ecommerse_shoes_backend.Services.Userservice;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace Ecommerse_shoes_backend
 
             // Add services to the container
             builder.Services.AddScoped<IUserservice, Userservice>();
+            builder.Services.AddScoped<IProductservice, Productservice>();
             builder.Services.AddControllers();
 
             // Configure Swagger
