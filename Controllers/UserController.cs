@@ -133,19 +133,4 @@ public class UserController : ControllerBase
         }
     }
 
-    [NonAction]
-    public IActionResult ShowHttpContextItems()
-    {
-        var items = HttpContext.Items;
-
-        // Iterate through each key-value pair in HttpContext.Items
-        foreach (var key in items.Keys)
-        {
-            var value = items[key];
-            Console.WriteLine($"{key}: {value}");
-        }
-
-        return Ok("Check the console for HttpContext.Items output.");
-    }
-
 }

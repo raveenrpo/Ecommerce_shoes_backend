@@ -15,6 +15,7 @@ namespace Ecommerse_shoes_backend.Dbcontext
         public DbSet<Category> Categories { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Wishlist> Wishlist { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +48,19 @@ namespace Ecommerse_shoes_backend.Dbcontext
                 .WithMany(c=>c.CartItems)
                 .HasForeignKey(p=>p.ProductId);
 
+
+
+
+
+            modelBuilder.Entity<Wishlist>()
+                .HasOne(u => u.User)
+                .WithMany(w => w.Wishlist)
+                .HasForeignKey(u => u.UserId);
+
+            modelBuilder.Entity<Wishlist>()
+                .HasOne(p=>p.Products)
+                .WithMany(w=>w.Wishlist)
+                .HasForeignKey(p=>p.ProductId);
 
            
 

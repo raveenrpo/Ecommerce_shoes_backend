@@ -26,6 +26,7 @@ namespace Ecommerse_shoes_backend.Services.CartService
                 {
                     return new List<CartDto>();
                 }
+
                 var items = user.Cart.CartItems.Select(p => new CartDto
                 {
                     Id = p.Id,
@@ -114,7 +115,12 @@ namespace Ecommerse_shoes_backend.Services.CartService
                 {
                     return false;
                 }
+                if (item.Quantity == 1)
+                {
+                    return false;
+                }
                 item.Quantity = item.Quantity - 1;
+                item.Products.Stock = item.Products.Stock + 1;
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -139,6 +145,7 @@ namespace Ecommerse_shoes_backend.Services.CartService
                     return false;
                 }
                 item.Quantity += 1;
+                item.Products.Stock = item.Products.Stock - 1;
                 await _context.SaveChangesAsync();
                 return true;
             }

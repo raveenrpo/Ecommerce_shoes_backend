@@ -3,6 +3,7 @@ using Ecommerse_shoes_backend.Dbcontext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerse_shoes_backend.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241104095301_cartservice")]
+    partial class cartservice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,33 +166,10 @@ namespace Ecommerse_shoes_backend.Migrations
                             Email = "admin@gmail.com",
                             Isblocked = false,
                             Name = "admin",
-                            Password = "$2a$11$/xdx95AooMUbAo/MDgcifON2IMshxKth0QSVUN.4oRQt87Un7.DaS",
+                            Password = "$2a$11$.jfGCabAS53BUWr8WYtjyu4PF1QlB1v5dI5OLJWqZqE3o4XDRR2r2",
                             Phone_no = 9087675434L,
                             Role = "Admin"
                         });
-                });
-
-            modelBuilder.Entity("Ecommerse_shoes_backend.Data.Models.Wishlist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Wishlist");
                 });
 
             modelBuilder.Entity("Ecommerse_shoes_backend.Data.Models.Cart", b =>
@@ -233,25 +213,6 @@ namespace Ecommerse_shoes_backend.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Ecommerse_shoes_backend.Data.Models.Wishlist", b =>
-                {
-                    b.HasOne("Ecommerse_shoes_backend.Data.Models.Products", "Products")
-                        .WithMany("Wishlist")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Ecommerse_shoes_backend.Data.Models.User", "User")
-                        .WithMany("Wishlist")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Products");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Ecommerse_shoes_backend.Data.Models.Cart", b =>
                 {
                     b.Navigation("CartItems");
@@ -265,16 +226,12 @@ namespace Ecommerse_shoes_backend.Migrations
             modelBuilder.Entity("Ecommerse_shoes_backend.Data.Models.Products", b =>
                 {
                     b.Navigation("CartItems");
-
-                    b.Navigation("Wishlist");
                 });
 
             modelBuilder.Entity("Ecommerse_shoes_backend.Data.Models.User", b =>
                 {
                     b.Navigation("Cart")
                         .IsRequired();
-
-                    b.Navigation("Wishlist");
                 });
 #pragma warning restore 612, 618
         }

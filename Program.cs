@@ -1,6 +1,8 @@
 using Ecommerse_shoes_backend.Dbcontext;
+using Ecommerse_shoes_backend.Services.CartService;
 using Ecommerse_shoes_backend.Services.Productservice;
 using Ecommerse_shoes_backend.Services.Userservice;
+using Ecommerse_shoes_backend.Services.WishListService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -24,6 +26,8 @@ namespace Ecommerse_shoes_backend
             // Add services to the container
             builder.Services.AddScoped<IUserservice, Userservice>();
             builder.Services.AddScoped<IProductservice, Productservice>();
+            builder.Services.AddScoped<ICartservice,Cartservice>();
+            builder.Services.AddScoped<IWishlistservice, Wishlistservice>();
             builder.Services.AddControllers();
 
             // Configure Swagger
