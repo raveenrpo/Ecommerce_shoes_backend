@@ -14,48 +14,12 @@ namespace Ecommerse_shoes_backend.Services.WishListService
             _context = context;
         }
 
-        //public async Task<IEnumerable<WishlistDto>> Get(int id)
-        //{
-        //    try
-        //    {
-        //        var user = await _context.Users.Include(w => w.Wishlist).ThenInclude(p => p.Products).FirstOrDefaultAsync(u => u.Id == id);
-        //        if (user == null)
-        //        {
-        //            throw new Exception("User not found");
-        //        }
-        //        if (user.Wishlist == null || !user.Wishlist.Any())
-        //        {
-        //            return new List<WishlistDto>();
-        //        }
-        //        var item = user.Wishlist.Select(p => new WishlistDto
-        //        {
-        //            Id = p.Id,
-        //            ProductId = p.ProductId,
-        //            Title = p.Products.Title,
-        //            Description = p.Products.Description,
-        //            ImageUrl = p.Products.ImageUrl,
-        //            Price = p.Products.Price,
-        //            Category_Name = p.Products.Category.Category_Name,
-
-        //        });
-        //        return item.ToList();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message); 
-        //    }
-        //}
-
 
         public async Task<IEnumerable<WishlistDto>> Get(int id)
         {
             try
             {
-                var user = await _context.Users
-                    .Include(w => w.Wishlist)
-                        .ThenInclude(p => p.Products)
-                        .ThenInclude(c=>c.Category)
-                    .FirstOrDefaultAsync(u => u.Id == id);
+                var user = await _context.Users.Include(w => w.Wishlist).ThenInclude(p => p.Products).ThenInclude(c => c.Category).FirstOrDefaultAsync(u => u.Id == id);
 
                 if (user == null)
                 {

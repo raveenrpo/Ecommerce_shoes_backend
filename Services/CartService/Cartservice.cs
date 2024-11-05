@@ -120,7 +120,7 @@ namespace Ecommerse_shoes_backend.Services.CartService
                     return false;
                 }
                 item.Quantity = item.Quantity - 1;
-                item.Products.Stock = item.Products.Stock + 1;
+                //item.Products.Stock = item.Products.Stock + 1;
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -145,7 +145,7 @@ namespace Ecommerse_shoes_backend.Services.CartService
                     return false;
                 }
                 item.Quantity += 1;
-                item.Products.Stock = item.Products.Stock - 1;
+                //item.Products.Stock = item.Products.Stock - 1;
                 await _context.SaveChangesAsync();
                 return true;
             }

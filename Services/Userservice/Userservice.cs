@@ -52,14 +52,13 @@ namespace Ecommerse_shoes_backend.Services.Userservice
             var exist = await _context.Users.FirstOrDefaultAsync(u => u.Email ==login.Email);
             if (exist != null)
             {
-                Console.WriteLine(exist);
                 var pass = BCrypt.Net.BCrypt.Verify(login.Password, exist.Password);
                     if (pass)
                     {
                         if (!exist.Isblocked) 
                         {
                             var token = GenerateJwtToken(exist);
-                            return new LoginDto { Token = token ,Error="No error", Email=exist.Email ,Password=exist.Password}; 
+                            return new LoginDto { Token = token ,Error="No error", Email=exist.Email }; 
                         }
                         return new LoginDto { Error = "user is blocked" };
                     }
@@ -72,7 +71,9 @@ namespace Ecommerse_shoes_backend.Services.Userservice
         {
             try
             {
-                var user =await _context.Users.ToListAsync();
+                //var user =await _context.Users.ToListAsync();
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Role == "User");
+
                 var admindto = _mapper.Map<IEnumerable<AdminDto>>(user);
                 return admindto;
             }
@@ -87,7 +88,9 @@ namespace Ecommerse_shoes_backend.Services.Userservice
         {
             try
             {
-                var exist = await _context.Users.FindAsync(id);
+                //var exist = await _context.Users.FindAsync(id);
+                var exist = await _context.Users.FirstOrDefaultAsync(u=>u.Id == id && u.Role=="User");
+
                 if (exist == null)
                 {
                     return null;
@@ -107,8 +110,10 @@ namespace Ecommerse_shoes_backend.Services.Userservice
         {
             try
             {
-                var user = await _context.Users.FindAsync(id);
-                if(user == null)
+                //var user = await _context.Users.FindAsync(id);
+                var user = await _context.Users.FirstOrDefaultAsync(u=>u.Equals(id) && u.Role=="User");
+
+                if (user == null)
                 {
                     return false;
                 }

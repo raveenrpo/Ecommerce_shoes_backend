@@ -64,10 +64,7 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
 {
     try
     {
-        var products = await _context.Products
-            .Include(p => p.Category)
-            .Where(p => p.Category.Category_Name == name)
-            .ToListAsync();
+        var products = await _context.Products.Include(p => p.Category).Where(p => p.Category.Category_Name == name).ToListAsync();
 
         if (!products.Any())
         {
@@ -166,9 +163,7 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
         {
             try
             {
-                //var products = await _context.Products
-                //           .FromSqlRaw("SELECT * FROM Products p JOIN Category c ON p.CategoryId = c.Id WHERE Title LIKE {0}", name + "%")
-                //           .ToListAsync();
+               
                 var products = _context.Products.Include(p => p.Category).Where(pr => pr.Title.ToLower().Contains(name.ToLower()));
 
                 if (!products.Any())
