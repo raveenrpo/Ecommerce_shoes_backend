@@ -49,6 +49,7 @@ namespace Ecommerse_shoes_backend.Services.Userservice
         }
         public async Task<LoginDto> Login(Login login)
         {
+
             var exist = await _context.Users.FirstOrDefaultAsync(u => u.Email ==login.Email);
             if (exist != null)
             {
@@ -58,7 +59,7 @@ namespace Ecommerse_shoes_backend.Services.Userservice
                         if (!exist.Isblocked) 
                         {
                             var token = GenerateJwtToken(exist);
-                            return new LoginDto { Token = token ,Error="No error", Email=exist.Email }; 
+                        return new LoginDto { Token = token, Error = "No error", Email = exist.Email };
                         }
                         return new LoginDto { Error = "user is blocked" };
                     }

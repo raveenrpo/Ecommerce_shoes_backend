@@ -2,6 +2,7 @@
 using Ecommerse_shoes_backend.Data.Dto;
 using Ecommerse_shoes_backend.Data.Models;
 using Ecommerse_shoes_backend.Dbcontext;
+using Ecommerse_shoes_backend.Migrations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerse_shoes_backend.Services.Productservice
@@ -10,10 +11,14 @@ namespace Ecommerse_shoes_backend.Services.Productservice
     {
         private readonly ApplicationContext _context;
         private readonly IMapper _mapper;
-        public Productservice(ApplicationContext context, IMapper mapper)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _configuration;
+        public Productservice(ApplicationContext context, IMapper mapper,IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _context = context;
             _mapper = mapper;
+            _webHostEnvironment = webHostEnvironment;
+            _configuration = configuration;
         }
 
         public async Task<IEnumerable<ProductDto>> GetProducts()
@@ -28,7 +33,7 @@ namespace Ecommerse_shoes_backend.Services.Productservice
                     Title = p.Title,
                     Description = p.Description,
                     Stock = p.Stock,
-                    ImageUrl = p.ImageUrl,
+                    ImageUrl = $"{_configuration["HostUrl:images"]}/Products/{p.ImageUrl}",
                     Price = p.Price,
                     Category_Name = p.Category.Category_Name,
                 });
@@ -77,7 +82,7 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
             Title = p.Title,
             Description = p.Description,
             Stock = p.Stock,
-            ImageUrl = p.ImageUrl,
+            ImageUrl = $"{_configuration["HostUrl:images"]}/Products/{p.ImageUrl}",
             Price = p.Price,
             Category_Name = p.Category.Category_Name
         });
@@ -91,7 +96,7 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
 }
 
 
-        public async Task<string> AddProduct(ProductAddDto addDto)
+        public async Task<string> AddProduct(ProductAddDto addDto, IFormFile image)
         {
             try
             {
@@ -101,6 +106,16 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
                     return ("Category Id is not valid");
                 }
                 var product = _mapper.Map<Products>(addDto);
+                if(image != null && image.Length>0)
+                {
+                    var filename=Guid.NewGuid().ToString()+Path.GetExtension(image.FileName);
+                    var filepath = Path.Combine(_webHostEnvironment.WebRootPath, "Images", "Products", filename);
+                    using (var stream = new FileStream(filepath,FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                    }
+                    product.ImageUrl=filename;
+                }
                 await _context.Products.AddAsync(product);
                 await _context.SaveChangesAsync();
                 return ("Product added successfully");
@@ -135,7 +150,7 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
 
 
         
-        public async Task<ProductAddDto> UpadateProduct(int id, ProductAddDto addDto)
+        public async Task<ProductAddDto> UpadateProduct(int id, ProductAddDto addDto, IFormFile image)
         {
             try
             {
@@ -144,7 +159,29 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
                 {
                     return null; 
                 }
-                _mapper.Map(addDto, exist);
+                string productimg=null;
+                if (image != null && image.Length > 0)
+                {
+                    var filename=Guid.NewGuid().ToString()+Path.GetExtension(image.FileName);
+                    var directrypath=Path.Combine(_webHostEnvironment.WebRootPath,"Images","Products",filename);
+                    if (!Directory.Exists(directrypath))
+                    {
+                        Directory.CreateDirectory(directrypath);
+                    }
+                    var filepath=Path.Combine(directrypath,filename);
+                    using (var stream = new FileStream(filepath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                        productimg=filename;
+                    }
+
+                }
+                exist.Title =addDto.Title;
+                exist.Description =addDto.Description;
+                exist.Price =addDto.Price;
+                exist.CategoryId =addDto.CategoryId;
+                exist.Stock=addDto.Stock;
+                exist.ImageUrl = productimg;
 
                 _context.Products.Update(exist); 
 
@@ -174,7 +211,7 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
                 {
                     Id = p.Id,
                     Title = p.Title,
-                    ImageUrl = p.ImageUrl,
+                    ImageUrl = $"{_configuration["HostUrl:images"]}/Products/{p.ImageUrl}",
                     Description = p.Description,
                     Stock = p.Stock,
                     Category_Name = p.Category.Category_Name,

@@ -9,9 +9,11 @@ namespace Ecommerse_shoes_backend.Services.CartService
     public class Cartservice : ICartservice
     {
         private readonly ApplicationContext _context;
-        public Cartservice(ApplicationContext context)
+        private readonly IConfiguration _configuration;
+        public Cartservice(ApplicationContext context,IWebHostEnvironment webHostEnvironment,IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
         public async Task<IEnumerable<CartDto>> GetCartItems(int id)
         {
@@ -30,9 +32,10 @@ namespace Ecommerse_shoes_backend.Services.CartService
                 var items = user.Cart.CartItems.Select(p => new CartDto
                 {
                     Id = p.Id,
+                    ProductId = p.ProductId,
                     Title = p.Products.Title,
                     Description = p.Products.Description,
-                    ImageUrl = p.Products.ImageUrl,
+                    ImageUrl = $"{_configuration["HostUrl:images"]}/Products/{p.Products.ImageUrl}",
                     Price = p.Products.Price,
                     Quantity = p.Quantity,
                     Total = p.Quantity * p.Products.Price
@@ -62,7 +65,9 @@ namespace Ecommerse_shoes_backend.Services.CartService
                 var item = user.Cart.CartItems.FirstOrDefault(c => c.ProductId == productid);
                 if (item != null)
                 {
-                    return false;
+                    item.Quantity += 1;
+                    await _context.SaveChangesAsync();
+                    return true;
                 }
                 var cartitem = new CartItem { CartId = user.Cart.Id, ProductId = productid, Quantity = 1 };
                 user.Cart.CartItems.Add(cartitem);
@@ -73,7 +78,7 @@ namespace Ecommerse_shoes_backend.Services.CartService
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
+            }   
         }
 
         public async Task<bool> RemoveFromCart(int id, int productid)

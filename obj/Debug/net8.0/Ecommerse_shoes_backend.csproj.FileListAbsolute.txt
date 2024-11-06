@@ -144,3 +144,4 @@ C:\Users\Lenovo\source\repos\Ecommerse_shoes_backend\Ecommerse_shoes_backend\obj
 C:\Users\Lenovo\source\repos\Ecommerse_shoes_backend\Ecommerse_shoes_backend\obj\Debug\net8.0\Ecommerse_shoes_backend.genruntimeconfig.cache
 C:\Users\Lenovo\source\repos\Ecommerse_shoes_backend\Ecommerse_shoes_backend\obj\Debug\net8.0\ref\Ecommerse_shoes_backend.dll
 C:\Users\Lenovo\source\repos\Ecommerse_shoes_backend\Ecommerse_shoes_backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Lenovo\source\repos\Ecommerse_shoes_backend\Ecommerse_shoes_backend\bin\Debug\net8.0\Ecommerse_shoes_backend.staticwebassets.runtime.json

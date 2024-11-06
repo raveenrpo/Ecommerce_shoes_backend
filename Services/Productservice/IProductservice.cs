@@ -8,8 +8,8 @@ namespace Ecommerse_shoes_backend.Services.Productservice
         Task<IEnumerable<ProductDto>> GetProducts();
         Task<ProductDto> GetProductsById(int id);
         Task<IEnumerable<ProductDto>> GetProductsByCategory(string name);
-        Task<string>AddProduct(ProductAddDto addDto);
-        Task<ProductAddDto> UpadateProduct(int id,ProductAddDto addDto);
+        Task<string>AddProduct(ProductAddDto addDto,IFormFile image);
+        Task<ProductAddDto> UpadateProduct(int id,ProductAddDto addDto,IFormFile image);
         Task<string> DeleteProduct(int id);
         Task<IEnumerable<ProductDto>> SearchProduct(string name);
     }

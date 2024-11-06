@@ -67,11 +67,11 @@ namespace Ecommerse_shoes_backend.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<string>> AddProduct(ProductAddDto productAddDto)
+        public async Task<ActionResult<string>> AddProduct([FromBody]ProductAddDto productAddDto,IFormFile image)
         {
             try
             {
-                var res = await _productservice.AddProduct(productAddDto);
+                var res = await _productservice.AddProduct(productAddDto,image);
                 if (res == "Category Id is not valid")
                 {
                     return BadRequest(res);
@@ -86,11 +86,11 @@ namespace Ecommerse_shoes_backend.Controllers
 
         [HttpPut]
         [Authorize(Roles ="Admin")]
-        public async Task<ActionResult<ProductAddDto>> UpdateProduct(int id,ProductAddDto productAddDto)
+        public async Task<ActionResult<ProductAddDto>> UpdateProduct(int id,[FromBody]ProductAddDto productAddDto,IFormFile image)
         {
             try
             {
-                var product = await _productservice.UpadateProduct(id, productAddDto);
+                var product = await _productservice.UpadateProduct(id, productAddDto,image);
                 if (product == null)
                 {
                     return NotFound("product with id not found");

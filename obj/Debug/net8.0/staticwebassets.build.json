@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "1Wp4Bwwr2WLeqyQ+hS0uxJTTgEy6XEOAPAK4O9AJvFQ=",
+  "Hash": "L2tcs7dd5e7oQdXv0aY3hqxtURVJ4xtBHagqcrAZHQo=",
   "Source": "Ecommerse_shoes_backend",
   "BasePath": "_content/Ecommerse_shoes_backend",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Ecommerse_shoes_backend\\wwwroot",
+      "Source": "Ecommerse_shoes_backend",
+      "ContentRoot": "C:\\Users\\Lenovo\\source\\repos\\Ecommerse_shoes_backend\\Ecommerse_shoes_backend\\wwwroot\\",
+      "BasePath": "_content/Ecommerse_shoes_backend",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

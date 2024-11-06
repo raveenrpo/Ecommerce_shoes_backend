@@ -115,6 +115,11 @@
         "Name": "productAddDto",
         "Type": "Ecommerse_shoes_backend.Data.Dto.ProductAddDto",
         "IsRequired": true
+      },
+      {
+        "Name": "image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -146,6 +151,11 @@
         "Name": "productAddDto",
         "Type": "Ecommerse_shoes_backend.Data.Dto.ProductAddDto",
         "IsRequired": true
+      },
+      {
+        "Name": "image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
