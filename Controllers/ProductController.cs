@@ -11,9 +11,11 @@ namespace Ecommerse_shoes_backend.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductservice _productservice;
-        public ProductController(IProductservice productservice)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductController(IProductservice productservice, IWebHostEnvironment webHostEnvironment)
         {
             _productservice = productservice;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -67,7 +69,7 @@ namespace Ecommerse_shoes_backend.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<string>> AddProduct([FromBody]ProductAddDto productAddDto,IFormFile image)
+        public async Task<ActionResult<string>> AddProduct([FromForm]ProductAddDto productAddDto,IFormFile image)
         {
             try
             {
@@ -86,7 +88,7 @@ namespace Ecommerse_shoes_backend.Controllers
 
         [HttpPut]
         [Authorize(Roles ="Admin")]
-        public async Task<ActionResult<ProductAddDto>> UpdateProduct(int id,[FromBody]ProductAddDto productAddDto,IFormFile image)
+        public async Task<ActionResult<ProductAddDto>> UpdateProduct(int id,[FromForm]ProductAddDto productAddDto,IFormFile image)
         {
             try
             {

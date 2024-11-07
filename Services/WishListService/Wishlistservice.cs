@@ -8,10 +8,12 @@ namespace Ecommerse_shoes_backend.Services.WishListService
     public class Wishlistservice:IWishlistservice
     {
         private readonly ApplicationContext _context;
+        private readonly IConfiguration _configuration;
 
-        public Wishlistservice(ApplicationContext context)
+        public Wishlistservice(ApplicationContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
 
@@ -37,7 +39,7 @@ namespace Ecommerse_shoes_backend.Services.WishListService
                     ProductId = p.ProductId,
                     Title = p.Products?.Title,
                     Description = p.Products?.Description,
-                    ImageUrl = p.Products?.ImageUrl,
+                    ImageUrl = $"{_configuration["HostUrl:images"]}/Products/{p.Products.ImageUrl}",
                     Price = ((decimal)p.Products?.Price),
                     Category_Name = p.Products.Category?.Category_Name
                 });

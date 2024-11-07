@@ -112,9 +112,29 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "productAddDto",
-        "Type": "Ecommerse_shoes_backend.Data.Dto.ProductAddDto",
-        "IsRequired": true
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Price",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "Stock",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "CategoryId",
+        "Type": "System.Int32",
+        "IsRequired": false
       },
       {
         "Name": "image",
@@ -148,9 +168,29 @@
         "IsRequired": false
       },
       {
-        "Name": "productAddDto",
-        "Type": "Ecommerse_shoes_backend.Data.Dto.ProductAddDto",
-        "IsRequired": true
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Price",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "Stock",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "CategoryId",
+        "Type": "System.Int32",
+        "IsRequired": false
       },
       {
         "Name": "image",

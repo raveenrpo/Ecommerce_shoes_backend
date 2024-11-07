@@ -15,14 +15,14 @@ namespace Ecommerse_shoes_backend.Data.Models
         [Required]
         public string ImageUrl { get; set; }
         [Required]
-        public int Stock { get; set; }
-
+        public int Stock { get; set; } 
         public bool Status { get; set; }=true;
         [Required]
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
         public ICollection<CartItem> CartItems { get; set; }
         public ICollection<Wishlist> Wishlist { get; set; }
+        public ICollection<OrderItems> OrderItems { get; set; }
 
 
     }

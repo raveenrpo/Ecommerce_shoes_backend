@@ -1,0 +1,61 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Lenovo\\source\\repos\\Ecommerse_shoes_backend\\Ecommerse_shoes_backend\\wwwroot\\Images\\Products\\17b6ae12-0731-4031-9643-ca2958429282.png\\17b6ae12-0731-4031-9643-ca2958429282.png",
+      "PackagePath": "staticwebassets\\Images\\Products\\17b6ae12-0731-4031-9643-ca2958429282.png\\17b6ae12-0731-4031-9643-ca2958429282.png"
+    },
+    {
+      "Id": "C:\\Users\\Lenovo\\source\\repos\\Ecommerse_shoes_backend\\Ecommerse_shoes_backend\\wwwroot\\Images\\Products\\1afb695e-f73c-49b9-a970-bdfa39c892e1.png",
+      "PackagePath": "staticwebassets\\Images\\Products\\1afb695e-f73c-49b9-a970-bdfa39c892e1.png"
+    },
+    {
+      "Id": "C:\\Users\\Lenovo\\source\\repos\\Ecommerse_shoes_backend\\Ecommerse_shoes_backend\\wwwroot\\Images\\Products\\281b7ac4-ea30-4616-9b2c-928ed745a88c.png",
+      "PackagePath": "staticwebassets\\Images\\Products\\281b7ac4-ea30-4616-9b2c-928ed745a88c.png"
+    },
+    {
+      "Id": "C:\\Users\\Lenovo\\source\\repos\\Ecommerse_shoes_backend\\Ecommerse_shoes_backend\\wwwroot\\Images\\Products\\4041daf5-3500-451e-a853-aff762623ebc.png",
+      "PackagePath": "staticwebassets\\Images\\Products\\4041daf5-3500-451e-a853-aff762623ebc.png"
+    },
+    {
+      "Id": "C:\\Users\\Lenovo\\source\\repos\\Ecommerse_shoes_backend\\Ecommerse_shoes_backend\\wwwroot\\Images\\Products\\50b309e8-ab70-434b-baf7-55f573b392a5.png",
+      "PackagePath": "staticwebassets\\Images\\Products\\50b309e8-ab70-434b-baf7-55f573b392a5.png"
+    },
+    {
+      "Id": "C:\\Users\\Lenovo\\source\\repos\\Ecommerse_shoes_backend\\Ecommerse_shoes_backend\\wwwroot\\Images\\Products\\5f80c1e4-3c54-4b70-ba34-4401234eddee.png",
+      "PackagePath": "staticwebassets\\Images\\Products\\5f80c1e4-3c54-4b70-ba34-4401234eddee.png"
+    },
+    {
+      "Id": "C:\\Users\\Lenovo\\source\\repos\\Ecommerse_shoes_backend\\Ecommerse_shoes_backend\\wwwroot\\Images\\Products\\77569f46-8cca-44ee-ba9a-2e93c803b18a.png",
+      "PackagePath": "staticwebassets\\Images\\Products\\77569f46-8cca-44ee-ba9a-2e93c803b18a.png"
+    },
+    {
+      "Id": "C:\\Users\\Lenovo\\source\\repos\\Ecommerse_shoes_backend\\Ecommerse_shoes_backend\\wwwroot\\Images\\Products\\7fc53d1f-b8b4-4585-b103-629fef9a6334.jpg",
+      "PackagePath": "staticwebassets\\Images\\Products\\7fc53d1f-b8b4-4585-b103-629fef9a6334.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Lenovo\\source\\repos\\Ecommerse_shoes_backend\\Ecommerse_shoes_backend\\wwwroot\\Images\\Products\\c2cefd34-7fdf-492a-b6eb-4a4b02c01b72.png",
+      "PackagePath": "staticwebassets\\Images\\Products\\c2cefd34-7fdf-492a-b6eb-4a4b02c01b72.png"
+    },
+    {
+      "Id": "C:\\Users\\Lenovo\\source\\repos\\Ecommerse_shoes_backend\\Ecommerse_shoes_backend\\wwwroot\\Images\\Products\\e2b3c545-5ffa-49b9-b4be-4803f763fa37.png",
+      "PackagePath": "staticwebassets\\Images\\Products\\e2b3c545-5ffa-49b9-b4be-4803f763fa37.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Ecommerse_shoes_backend.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Ecommerse_shoes_backend.props",
+      "PackagePath": "build\\Ecommerse_shoes_backend.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Ecommerse_shoes_backend.props",
+      "PackagePath": "buildMultiTargeting\\Ecommerse_shoes_backend.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Ecommerse_shoes_backend.props",
+      "PackagePath": "buildTransitive\\Ecommerse_shoes_backend.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
