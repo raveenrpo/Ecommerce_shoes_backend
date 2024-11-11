@@ -16,7 +16,7 @@ namespace Ecommerse_shoes_backend.Dbcontext
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Wishlist> Wishlist { get; set; }
-        public DbSet<Order> Order { get; set; }
+        public DbSet<Orders> Orders { get; set; }
         public DbSet<OrderItems> OrderItems { get; set; }
         
 
@@ -65,20 +65,31 @@ namespace Ecommerse_shoes_backend.Dbcontext
                 .WithMany(w=>w.Wishlist)
                 .HasForeignKey(p=>p.ProductId);
 
+            modelBuilder.Entity<OrderItems>()
+                .Property(o => o.Price)
+                .HasPrecision(18, 2);
+            modelBuilder.Entity<OrderItems>()
+                .Property(o=>o.TotalPrice)
+                .HasPrecision(18, 2);
 
 
             modelBuilder.Entity<User>()
-                .HasMany(o=>o.Order)
+                .HasOne(o=>o.Orders)
                 .WithOne(u=>u.User)
-                .HasForeignKey(u => u.UserId);
-            modelBuilder.Entity<Order>()
+                .HasForeignKey<Orders>(u=>u.UserId);
+
+            modelBuilder.Entity<Orders>()
                 .HasMany(oi=>oi.OrderItems)
-                .WithOne(o=>o.Order)
+                .WithOne(o=>o.Orders)
                 .HasForeignKey(o=>o.OrderId);
+
             modelBuilder.Entity<OrderItems>()
                 .HasOne(p => p.Products)
                 .WithMany(oi => oi.OrderItems)
                 .HasForeignKey(p => p.ProductId);
+             
+
+            
         }
     }
 }

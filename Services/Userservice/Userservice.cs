@@ -59,7 +59,7 @@ namespace Ecommerse_shoes_backend.Services.Userservice
                         if (!exist.Isblocked) 
                         {
                             var token = GenerateJwtToken(exist);
-                        return new LoginDto { Token = token, Error = "No error", Email = exist.Email };
+                        return new LoginDto { Token = token, Error = "No error", Userid=exist.Id ,UserName=exist.Name, Role=exist.Role,Isblocked=exist.Isblocked};
                         }
                         return new LoginDto { Error = "user is blocked" };
                     }
@@ -72,8 +72,8 @@ namespace Ecommerse_shoes_backend.Services.Userservice
         {
             try
             {
-                //var user =await _context.Users.ToListAsync();
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.Role == "User");
+                var user = await _context.Users.ToListAsync();
+                //var user = await _context.Users.FirstOrDefaultAsync(u => u.Role == "User");
 
                 var admindto = _mapper.Map<IEnumerable<AdminDto>>(user);
                 return admindto;
@@ -112,7 +112,8 @@ namespace Ecommerse_shoes_backend.Services.Userservice
             try
             {
                 //var user = await _context.Users.FindAsync(id);
-                var user = await _context.Users.FirstOrDefaultAsync(u=>u.Equals(id) && u.Role=="User");
+                //var user = await _context.Users.FirstOrDefaultAsync(u=>u.Equals(id) && u.Role=="User");
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id && u.Role == "User");
 
                 if (user == null)
                 {
@@ -163,10 +164,16 @@ namespace Ecommerse_shoes_backend.Services.Userservice
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(30),
+                expires: DateTime.UtcNow.AddDays(7),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private string GenerateRefreashToken()
+        {
+            var refreashToken=Guid.NewGuid().ToString();
+            return refreashToken;
         }
     }
 

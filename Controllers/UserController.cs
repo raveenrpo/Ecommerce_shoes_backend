@@ -49,7 +49,8 @@ public class UserController : ControllerBase
             {
                 return BadRequest("Password is incorrect");
             }
-            return Ok(new LoginDto { Token = exist.Token, Error = "Login successfully" });
+
+            return Ok(new LoginDto { Token = exist.Token, Error = "Login successfully" ,Userid=exist.Userid,UserName=exist.UserName,Role=exist.Role});
         }
         catch (Exception ex)
         {
@@ -59,7 +60,7 @@ public class UserController : ControllerBase
 
     [HttpGet("GetAllUser")]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<IEnumerable<User>>> GetAll()
+    public async Task<ActionResult<IEnumerable<AdminDto>>> GetAll()
     {
         try
         {
@@ -78,7 +79,7 @@ public class UserController : ControllerBase
 
     [HttpGet("GetUserByID")]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<User>> GetUserById([FromQuery] int id)
+    public async Task<ActionResult<AdminDto>> GetUserById([FromQuery] int id)
     {
         try
         {
@@ -104,7 +105,7 @@ public class UserController : ControllerBase
             var block = await _userservice.Block(id);
             if (block)
             {
-                return Ok(new { message = "User has been blocked by admin." });
+                return Ok("User has been blocked by admin.");
             }
             return BadRequest("User not found");
         }

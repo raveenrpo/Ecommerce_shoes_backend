@@ -112,6 +112,7 @@
 //}
 
 using Ecommerse_shoes_backend.Dbcontext;
+using Ecommerse_shoes_backend.Middleware;
 using Ecommerse_shoes_backend.Services.CartService;
 using Ecommerse_shoes_backend.Services.Productservice;
 using Ecommerse_shoes_backend.Services.Userservice;
@@ -224,7 +225,7 @@ namespace Ecommerse_shoes_backend
             // Add authentication and authorization middleware
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseMiddleware<GetUserIdMiddleware>();
             // Map controllers to routes
             app.MapControllers();
 

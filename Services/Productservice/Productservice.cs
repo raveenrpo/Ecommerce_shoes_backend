@@ -57,6 +57,7 @@ namespace Ecommerse_shoes_backend.Services.Productservice
                 }
                 var pr = _mapper.Map<ProductDto>(product);
                 pr.Category_Name = product.Category?.Category_Name;
+                pr.ImageUrl = $"{_configuration["HostUrl:images"]}/Products/{pr.ImageUrl}";
                 return pr;
             }
             catch (Exception ex)
@@ -69,12 +70,26 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
 {
     try
     {
+                var allprd = await _context.Products.Include(p => p.Category).ToListAsync(); 
         var products = await _context.Products.Include(p => p.Category).Where(p => p.Category.Category_Name == name).ToListAsync();
 
         if (!products.Any())
         {
-            return Enumerable.Empty<ProductDto>();
-        }
+
+                    //return Enumerable.Empty<ProductDto>();
+                    var product = allprd.Select(p => new ProductDto
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Description = p.Description,
+                        Stock = p.Stock,
+                        ImageUrl = $"{_configuration["HostUrl:images"]}/Products/{p.ImageUrl}",
+                        Price = p.Price,
+                        Category_Name = p.Category.Category_Name
+                    });
+
+                    return product.ToList();
+                }
 
         var productDtos = products.Select(p => new ProductDto
         {

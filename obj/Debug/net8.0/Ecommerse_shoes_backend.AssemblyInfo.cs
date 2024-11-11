@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ecommerse_shoes_backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c30cdd8c1d2993167778e6a45fb63093d9754da")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d4d76df4de3cc1ba64bc3dcc7eb48644ec5019b")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ecommerse_shoes_backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ecommerse_shoes_backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

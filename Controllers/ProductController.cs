@@ -32,7 +32,7 @@ namespace Ecommerse_shoes_backend.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("byid/{id}")]
         public async Task<ActionResult<ProductDto>> GetProductById(int id)
         {
             try

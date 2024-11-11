@@ -22,7 +22,7 @@
   {
     "ContainingType": "Ecommerse_shoes_backend.Controllers.CartController",
     "Method": "AddToCart",
-    "RelativePath": "api/Cart/Add to cart/{productId}",
+    "RelativePath": "api/Cart/Add_to_cart/{productId}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -70,7 +70,7 @@
   {
     "ContainingType": "Ecommerse_shoes_backend.Controllers.CartController",
     "Method": "RemoveCart",
-    "RelativePath": "api/Cart/Remove from cart/{productId}",
+    "RelativePath": "api/Cart/Remove_from_cart/{productId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -239,7 +239,7 @@
   {
     "ContainingType": "Ecommerse_shoes_backend.Controllers.ProductController",
     "Method": "GetProductById",
-    "RelativePath": "api/Product/{id}",
+    "RelativePath": "api/Product/byid/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -340,7 +340,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Ecommerse_shoes_backend.Data.Models.User, Ecommerse_shoes_backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Ecommerse_shoes_backend.Data.Dto.AdminDto, Ecommerse_shoes_backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -366,7 +366,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Ecommerse_shoes_backend.Data.Models.User",
+        "Type": "Ecommerse_shoes_backend.Data.Dto.AdminDto",
         "MediaTypes": [
           "text/plain",
           "application/json",

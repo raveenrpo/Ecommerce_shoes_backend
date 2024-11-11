@@ -22,10 +22,10 @@ namespace Ecommerse_shoes_backend.Controllers
         {
             try
             {
-                var userIdResult = GetUserIdFromClaims();
-                var userId = userIdResult.Value; 
-                var res = await _cartservice.GetCartItems(userId);
 
+                var userId = Convert.ToInt32(HttpContext.Items["Id"]);
+                Console.WriteLine("userid="+userId);
+                var res = await _cartservice.GetCartItems(userId);
                 if (res == null || !res.Any())
                 {
                     return NotFound(); 
@@ -43,13 +43,13 @@ namespace Ecommerse_shoes_backend.Controllers
             }
         }
 
-        [HttpPost("Add to cart/{productId}")]
+        [HttpPost("Add_to_cart/{productId}")]
         public async Task <IActionResult>AddToCart(int productId)
         {
             try
             {
-                var userIdResult = GetUserIdFromClaims();
-                var userId = userIdResult.Value;
+
+                var userId = Convert.ToInt32(HttpContext.Items["Id"]);
                 var res = await _cartservice.AddToCart(userId, productId);
                 if (res == true)
                 {
@@ -63,15 +63,17 @@ namespace Ecommerse_shoes_backend.Controllers
             }
         }
 
-        [HttpDelete("Remove from cart/{productId}")]
+        [HttpDelete("Remove_from_cart/{productId}")]
         public async Task<IActionResult>RemoveCart( int productId)
         {
             try
             {
-                var userIdResult = GetUserIdFromClaims();
-                var userId = userIdResult.Value;
+                //var userIdResult = GetUserIdFromClaims();
+                //var userId = userIdResult.Value;
+                var userId = Convert.ToInt32(HttpContext.Items["Id"]);
+
                 var res = await _cartservice.RemoveFromCart(userId, productId);
-                if (res == true)
+                if (res)
                 {
                     return Ok("item removed from the cart");
                 }
@@ -89,10 +91,11 @@ namespace Ecommerse_shoes_backend.Controllers
         {
             try
             {
-                var userIdResult = GetUserIdFromClaims();
-                var userId = userIdResult.Value;
+
+                var userId = Convert.ToInt32(HttpContext.Items["Id"]);
+
                 var res = await _cartservice.IncrimentQuantity(userId, productId);
-                if (res == true)
+                if (res)
                 {
                     return Ok("Quantity increased");
                 }
@@ -109,10 +112,10 @@ namespace Ecommerse_shoes_backend.Controllers
         {
             try
             {
-                var userIdResult = GetUserIdFromClaims();
-                var userId = userIdResult.Value;
+                var userId = Convert.ToInt32(HttpContext.Items["Id"]);
+
                 var res = await _cartservice.DecrimentQuantity(userId, productId);
-                if (res == true)
+                if (res)
                 {
                     return Ok("quantity decreased");
                 }
