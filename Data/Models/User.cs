@@ -10,7 +10,7 @@
         public string Role { get; set; }
         public bool Isblocked { get; set; }
         public virtual Cart Cart { get; set; }
-        public virtual Orders Orders { get; set; }
+        public ICollection<Orders> Orders { get; set; }
         public ICollection<Wishlist> Wishlist { get; set; }
     }
 }

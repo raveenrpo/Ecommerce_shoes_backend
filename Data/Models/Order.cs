@@ -10,7 +10,7 @@
         public decimal Total { get; set; }
         public string Orderstring {  get; set; }
         public DateTime OrderDate { get; set; }
-        public string Transactiond {  get; set; }
+        public string TransactionId {  get; set; }
 
         public virtual User User { get; set; }
         public ICollection<OrderItems> OrderItems { get; set; }

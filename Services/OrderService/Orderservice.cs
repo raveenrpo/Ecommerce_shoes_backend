@@ -12,7 +12,6 @@ namespace Ecommerse_shoes_backend.Services.OrderService
     {
         private readonly ApplicationContext _context;
         private readonly IConfiguration _configuration;
-        private readonly IJwtTokengetId _jwtTokengetId;
 
         public Orderservice(ApplicationContext context,IConfiguration configuration)
         {
@@ -22,7 +21,7 @@ namespace Ecommerse_shoes_backend.Services.OrderService
 
 
 
-        public async Task<string> OrderCreate(long price)
+        public async Task<string> RazorOrderCreate(long price)
         {
             try
             {
@@ -51,112 +50,6 @@ namespace Ecommerse_shoes_backend.Services.OrderService
         }
 
 
-
-        public async Task<bool> CreateOrder(int userId, InputorderDto inputorderDto)
-        {
-
-            try
-            {
-                //var userId = Convert.ToInt32(HttpContext.Items["Id"]);
-                if (userId ==null)
-                {
-                    throw new Exception("User not found");
-                }
-                var user=await _context.Users.Include(c=>c.Cart).ThenInclude(ci=>ci.CartItems).ThenInclude(p=>p.Products).FirstOrDefaultAsync(u=>u.Id == userId);
-                if (user.Cart==null)
-                {
-                    throw new Exception("User dosent have a cart");
-                }
-                var isorder=await _context.Orders.FirstOrDefaultAsync(u=>u.UserId == userId);
-                //var existorder=await _context.Users.Include(o=>o.Order).ThenInclude(oi=>oi.OrderItems).FirstOrDefaultAsync(u=>u.Id==userId);
-                if(isorder==null)
-                {
-                    await _context.Orders.AddAsync(new Data.Models.Orders { UserId = userId });
-                    await _context.SaveChangesAsync();
-                    isorder = await _context.Orders.FirstOrDefaultAsync(o=>o.UserId == userId);
-
-                }
-                var orderitem = user.Cart.CartItems.Select(c => new OrderItems
-                {
-                    OrderId = isorder.Id,
-                    ProductId = c.ProductId,
-                    Price = c.Products.Price,
-                    Quantity = c.Quantity,
-                    TotalPrice = c.Products.Price * c.Quantity,
-                    UserName = inputorderDto.UserName,
-                    Address = inputorderDto.Address,
-                    Phone = inputorderDto.Phone,
-                    Date = DateTime.Now.Date,
-
-                });
-                await _context.OrderItems.AddRangeAsync(orderitem);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-        }
-
-
-
-        public async Task<IEnumerable<OutorderDto>> GetAllUserOrder()
-        {
-            try
-            {
-                var order = await _context.Orders.Include(oi => oi.OrderItems).ThenInclude(p => p.Products).ToListAsync();
-                if (order == null || order.Count == 0)
-                {
-                    return new List<OutorderDto>();
-                }
-                var orderitems = order.Select(or => new OutorderDto
-                {
-                    Id = or.OrderItems.FirstOrDefault().Id,
-                    UserId = or.UserId,
-                    ProductId = or.OrderItems.FirstOrDefault().ProductId,
-                    Quantity = or.OrderItems.FirstOrDefault().Quantity,
-                    Image = $"{_configuration["Hosturl:images"]}/Products/{or.OrderItems.FirstOrDefault().Products.ImageUrl}",
-                    Price = or.OrderItems.FirstOrDefault().Price,
-                    Total = or.OrderItems.FirstOrDefault().TotalPrice,
-
-                }).ToList();
-                return orderitems;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-        }
-
-        public async Task<IEnumerable<OutorderDto>> GetUserOrder(int id)
-        {
-            try
-            {
-                var user = await _context.Users.Include(oi => oi.Orders).ThenInclude(p => p.OrderItems).ThenInclude(pp => pp.Products).FirstOrDefaultAsync(u => u.Id == id);
-                if (user == null)
-                {
-                    return new List<OutorderDto>();
-                }
-                var orderlist = user.Orders.OrderItems.Select(k => new OutorderDto
-                {
-                    Id = k.Id,
-                    UserId = id,
-                    ProductId = k.ProductId,
-                    Quantity = k.Quantity,
-                    Image = $"{_configuration["Hosturl:images"]}/Products/{k.Products.ImageUrl}",
-                    Price = k.Price,
-                    Total = k.TotalPrice,
-                }).ToList();
-                return orderlist;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{ex.Message}", ex);
-            }
-        }
-
-       
         public bool PaymentVerify(RazorDto razorDto)
         {
             try
@@ -180,14 +73,186 @@ namespace Ecommerse_shoes_backend.Services.OrderService
             }
         }
 
-        public Task<int> TotalPurchaseByProduct(int id)
+
+
+        public async Task<bool> CreateOrder(int userId, InputorderDto inputorderDto)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                //var userId = Convert.ToInt32(HttpContext.Items["Id"]);
+                if (userId ==null)
+                {
+                    throw new Exception("User not found");
+                }
+                var user=await _context.Users.Include(c=>c.Cart).ThenInclude(ci=>ci.CartItems).ThenInclude(p=>p.Products).FirstOrDefaultAsync(u=>u.Id == userId);
+                if (user.Cart==null)
+                {
+                    throw new Exception("User dosent have a cart");
+                }
+                
+                var cart = user.Cart;
+                var order = new Orders
+                {
+                    UserId = userId,
+                    OrderDate = DateTime.Now,
+                    UserName = inputorderDto.UserName,
+                    Phone = inputorderDto.Phone,
+                    Address = inputorderDto.Address,
+                    Total = inputorderDto.Total,
+                    Orderstring = inputorderDto.Orderstring,
+                    TransactionId = inputorderDto.TransactionId,
+                    OrderItems = user.Cart.CartItems.Select(c => new OrderItems
+                    {
+                        ProductId = c.ProductId,
+                        Quantity = c.Quantity,
+                        TotalPrice = c.Quantity * c.Products.Price,
+                    }).ToList()
+
+                };
+                await _context.Orders.AddAsync(order);
+                _context.Carts.Remove(cart);
+                await _context.SaveChangesAsync();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
-        public Task<decimal> TotalRevenue()
+
+        public async Task<IEnumerable<OutorderDto>> GetUserOrder(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _context.Users.Include(oi => oi.Orders).ThenInclude(p => p.OrderItems).ThenInclude(pp => pp.Products).FirstOrDefaultAsync(u => u.Id == id);
+                if (user == null)
+                {
+                    return new List<OutorderDto>();
+                }
+                if(user.Orders==null)
+                {
+                    throw new Exception("user dont have any order");
+                }
+                var ite=await _context.Orders.Include(oi=>oi.OrderItems).FirstOrDefaultAsync(o=>o.UserId == id);
+                if(ite.OrderItems==null||ite.OrderItems.Count==0)
+                {
+                    throw new Exception("user dont have any orderitem");
+
+                }
+                var orderlist = ite.OrderItems.Select(k => new OutorderDto
+                {
+                    Id = k.ProductId,
+                    OrderDate=k.Orders.OrderDate,
+                    Title = k.Products.Title,
+                    Quantity = k.Quantity,
+                    Image = $"{_configuration["Hosturl:images"]}/Products/{k.Products.ImageUrl}",
+                    TotalPrice = k.TotalPrice,
+                    OrderId=k.Orders.Orderstring
+                }).ToList();
+                return orderlist;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}", ex);
+            }
+        }
+
+
+        public async Task<IEnumerable<OutorderDto>> GetUserOrderById(int id)
+        {
+            try
+            {
+                var user = await _context.Users.Include(oi => oi.Orders).ThenInclude(p => p.OrderItems).ThenInclude(pp => pp.Products).FirstOrDefaultAsync(u => u.Id == id);
+                if (user == null)
+                {
+                    return new List<OutorderDto>();
+                }
+                if (user.Orders == null)
+                {
+                    throw new Exception("user dont have any order");
+                }
+                var ite = await _context.Orders.Include(oi => oi.OrderItems).FirstOrDefaultAsync(o => o.UserId == id);
+                if (ite.OrderItems == null || ite.OrderItems.Count == 0)
+                {
+                    throw new Exception("user dont have any orderitem");
+
+                }
+                var orderlist = ite.OrderItems.Select(k => new OutorderDto
+                {
+                    Id = k.ProductId,
+                    OrderDate = k.Orders.OrderDate,
+                    Title = k.Products.Title,
+                    Quantity = k.Quantity,
+                    Image = $"{_configuration["Hosturl:images"]}/Products/{k.Products.ImageUrl}",
+                    TotalPrice = k.TotalPrice,
+                    OrderId = k.Orders.Orderstring
+                }).ToList();
+                return orderlist;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}", ex);
+            }
+        }
+
+
+
+        public async Task<IEnumerable<OrderAdminviewDto>> GetAllUserOrder()
+        {
+            try
+            {
+                var order = await _context.Orders.Include(oi => oi.OrderItems).ThenInclude(p => p.Products).ToListAsync();
+                if (order == null || order.Count == 0)
+                {
+                    return new List<OrderAdminviewDto>();
+                }
+                var orderitems = order.Select(or => new OrderAdminviewDto
+                {
+                    Id = or.UserId,
+                    UserName = or.UserName,
+                    Phone = or.Phone,
+                    OrderId = or.Orderstring,
+                    TransactionId = or.TransactionId,
+                    OrderDate = or.OrderDate,
+
+                }).ToList();
+                return orderitems;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+       
+
+        public async Task<int> TotalPurchasedProduct()
+        {
+            try
+            {
+                var count = await _context.OrderItems.SumAsync(q => q.Quantity);
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task<decimal> TotalRevenue()
+        {
+            try
+            {
+                var total = await _context.OrderItems.SumAsync(v => v.TotalPrice);
+                return total;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
         }
     }
 }

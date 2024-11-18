@@ -46,6 +46,31 @@ namespace Ecommerse_shoes_backend.Services.Productservice
             }
         }
 
+
+        public async Task<IEnumerable<ProductDto>> GetProductByPagination(int pageno, int pagesize)
+        {
+            try
+            {
+                var prducts=await _context.Products.Include(p=>p.Category).Skip((pageno - 1)* pagesize).Take(pagesize).ToListAsync();
+                var prd = prducts.Select(p => new ProductDto
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Description = p.Description,
+                    Stock = p.Stock,
+                    ImageUrl = $"{_configuration["HostUrl:images"]}/Products/{p.ImageUrl}",
+                    Price = p.Price,
+                    Category_Name = p.Category.Category_Name,
+                });
+                return prd.ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<ProductDto> GetProductsById(int id)
         {
             try
@@ -165,25 +190,32 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
 
 
         
-        public async Task<ProductAddDto> UpadateProduct(int id, ProductAddDto addDto, IFormFile image)
+        public async Task<string> UpadateProduct(int id, ProductAddDto addDto, IFormFile image)
         {
             try
             {
                 var exist = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
                 if (exist == null)
                 {
-                    return null; 
+                    return ("Product not found"); 
+
                 }
                 string productimg=null;
                 if (image != null && image.Length > 0)
                 {
                     var filename=Guid.NewGuid().ToString()+Path.GetExtension(image.FileName);
-                    var directrypath=Path.Combine(_webHostEnvironment.WebRootPath,"Images","Products",filename);
+                    var directrypath=Path.Combine(_webHostEnvironment.WebRootPath,"Images","Products");
                     if (!Directory.Exists(directrypath))
                     {
                         Directory.CreateDirectory(directrypath);
                     }
                     var filepath=Path.Combine(directrypath,filename);
+                    if(File.Exists(filepath))
+                    {
+                         filename = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                         filepath = Path.Combine(directrypath, filename);
+
+                    }
                     using (var stream = new FileStream(filepath, FileMode.Create))
                     {
                         await image.CopyToAsync(stream);
@@ -202,7 +234,7 @@ public async Task<IEnumerable<ProductDto>> GetProductsByCategory(string name)
 
                 await _context.SaveChangesAsync();
 
-                return addDto; 
+                return ("Product updated successfully"); 
             }
             catch (Exception ex)
             {

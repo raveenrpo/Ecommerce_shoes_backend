@@ -32,6 +32,22 @@ namespace Ecommerse_shoes_backend.Controllers
             }
         }
 
+        [HttpGet("pagination")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetpaginatedProduct(int pageno, int pagesize)
+        {
+            try
+            {
+
+                var res = await _productservice.GetProductByPagination(pageno, pagesize);
+                return Ok(res);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("byid/{id}")]
         public async Task<ActionResult<ProductDto>> GetProductById(int id)
         {
@@ -86,9 +102,9 @@ namespace Ecommerse_shoes_backend.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize(Roles ="Admin")]
-        public async Task<ActionResult<ProductAddDto>> UpdateProduct(int id,[FromForm]ProductAddDto productAddDto,IFormFile image)
+        public async Task<ActionResult<string>> UpdateProduct(int id,[FromForm] ProductAddDto productAddDto,IFormFile image)
         {
             try
             {

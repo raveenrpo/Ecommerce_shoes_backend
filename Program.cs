@@ -114,6 +114,7 @@
 using Ecommerse_shoes_backend.Dbcontext;
 using Ecommerse_shoes_backend.Middleware;
 using Ecommerse_shoes_backend.Services.CartService;
+using Ecommerse_shoes_backend.Services.OrderService;
 using Ecommerse_shoes_backend.Services.Productservice;
 using Ecommerse_shoes_backend.Services.Userservice;
 using Ecommerse_shoes_backend.Services.WishListService;
@@ -151,6 +152,7 @@ namespace Ecommerse_shoes_backend
             builder.Services.AddScoped<IProductservice, Productservice>();
             builder.Services.AddScoped<ICartservice, Cartservice>();
             builder.Services.AddScoped<IWishlistservice, Wishlistservice>();
+            builder.Services.AddScoped<IOrderservice, Orderservice>();
             builder.Services.AddControllers();
 
             // Swagger configuration for API documentation and JWT Authentication

@@ -84,6 +84,120 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Ecommerse_shoes_backend.Controllers.OrderController",
+    "Method": "Getallorders",
+    "RelativePath": "api/Order/get_all_order",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "Ecommerse_shoes_backend.Data.Dto.OrderAdminviewDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Ecommerse_shoes_backend.Controllers.OrderController",
+    "Method": "GetOrder",
+    "RelativePath": "api/Order/get_user_order",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Ecommerse_shoes_backend.Controllers.OrderController",
+    "Method": "Getorderbyid",
+    "RelativePath": "api/Order/orderbyid/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Ecommerse_shoes_backend.Controllers.OrderController",
+    "Method": "CreateOrder",
+    "RelativePath": "api/Order/ordercreation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "price",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Ecommerse_shoes_backend.Controllers.OrderController",
+    "Method": "PaymentValidate",
+    "RelativePath": "api/Order/paymentvalidation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "razorDto",
+        "Type": "Ecommerse_shoes_backend.Data.Dto.RazorDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Ecommerse_shoes_backend.Controllers.OrderController",
+    "Method": "Placeorder",
+    "RelativePath": "api/Order/placeorder",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "inputorderDto",
+        "Type": "Ecommerse_shoes_backend.Data.Dto.InputorderDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Ecommerse_shoes_backend.Controllers.OrderController",
+    "Method": "Purchasedproducts",
+    "RelativePath": "api/Order/purchased_product",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Ecommerse_shoes_backend.Controllers.OrderController",
+    "Method": "TotalIncome",
+    "RelativePath": "api/Order/total",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Ecommerse_shoes_backend.Controllers.ProductController",
     "Method": "GetProducts",
     "RelativePath": "api/Product",
@@ -156,9 +270,9 @@
   },
   {
     "ContainingType": "Ecommerse_shoes_backend.Controllers.ProductController",
-    "Method": "UpdateProduct",
+    "Method": "DeleteProduct",
     "RelativePath": "api/Product",
-    "HttpMethod": "PUT",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -166,6 +280,32 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Ecommerse_shoes_backend.Controllers.ProductController",
+    "Method": "UpdateProduct",
+    "RelativePath": "api/Product/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
       },
       {
         "Name": "Title",
@@ -195,32 +335,6 @@
       {
         "Name": "image",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "Ecommerse_shoes_backend.Data.Dto.ProductAddDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Ecommerse_shoes_backend.Controllers.ProductController",
-    "Method": "DeleteProduct",
-    "RelativePath": "api/Product",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
@@ -273,6 +387,37 @@
       {
         "Name": "name",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Ecommerse_shoes_backend.Data.Dto.ProductDto, Ecommerse_shoes_backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Ecommerse_shoes_backend.Controllers.ProductController",
+    "Method": "GetpaginatedProduct",
+    "RelativePath": "api/Product/pagination",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pageno",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pagesize",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],

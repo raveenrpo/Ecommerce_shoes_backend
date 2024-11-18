@@ -65,8 +65,8 @@ namespace Ecommerse_shoes_backend.Dbcontext
                 .WithMany(w=>w.Wishlist)
                 .HasForeignKey(p=>p.ProductId);
 
-            modelBuilder.Entity<OrderItems>()
-                .Property(o => o.Price)
+            modelBuilder.Entity<Orders>()
+                .Property(o => o.Total)
                 .HasPrecision(18, 2);
             modelBuilder.Entity<OrderItems>()
                 .Property(o=>o.TotalPrice)
@@ -74,9 +74,9 @@ namespace Ecommerse_shoes_backend.Dbcontext
 
 
             modelBuilder.Entity<User>()
-                .HasOne(o=>o.Orders)
+                .HasMany(o=>o.Orders)
                 .WithOne(u=>u.User)
-                .HasForeignKey<Orders>(u=>u.UserId);
+                .HasForeignKey(u=>u.UserId);
 
             modelBuilder.Entity<Orders>()
                 .HasMany(oi=>oi.OrderItems)
