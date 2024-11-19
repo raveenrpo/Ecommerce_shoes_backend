@@ -26,19 +26,26 @@ namespace Ecommerse_shoes_backend.Services.Productservice
             try
             {
                 var products = await _context.Products.Include(p => p.Category).ToListAsync();
-                var product = products.Select(p =>
-                new ProductDto
+                var orderItemCounts = await _context.OrderItems .GroupBy(o => o.ProductId).Select(g => new { ProductId = g.Key, Count = g.Count() }).ToListAsync();
+                var product = products.Select(async p => {
+                    var ordercount = orderItemCounts.FirstOrDefault(o => o.ProductId == p.Id)?.Count ?? 0;
+                    var oc = p.Stock - ordercount;
+                    p.Stock = oc;
+                    _context.SaveChangesAsync();
+                    return new ProductDto
                 {
                     Id = p.Id,
                     Title = p.Title,
                     Description = p.Description,
-                    Stock = p.Stock,
+                    Stock = p.Stock - ordercount,
                     ImageUrl = $"{_configuration["HostUrl:images"]}/Products/{p.ImageUrl}",
                     Price = p.Price,
                     Category_Name = p.Category.Category_Name,
-                });
+                };
+                }).ToList();
 
-                return product.ToList();
+                var pr= await Task.WhenAll(product);
+                return pr;
             }
             catch (Exception ex)
             {

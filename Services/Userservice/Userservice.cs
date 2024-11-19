@@ -72,7 +72,7 @@ namespace Ecommerse_shoes_backend.Services.Userservice
         {
             try
             {
-                var user = await _context.Users.ToListAsync();
+                var user = await _context.Users.Where(n=>n.Role=="User").ToListAsync();
                 //var user = await _context.Users.FirstOrDefaultAsync(u => u.Role == "User");
 
                 var admindto = _mapper.Map<IEnumerable<AdminDto>>(user);
